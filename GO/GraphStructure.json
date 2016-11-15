@@ -1,0 +1,20 @@
+{
+	"graph":{
+		"edges":
+		[{
+			"from":{"node":{"value":4}},
+			"to":{"node":{"value":5}},
+			"weight":8
+			},
+		{
+			"from":{"node":{"value":4}},
+			"to":{"node":{"value":7}},
+			"weight":2
+			},
+		{
+			"from":{"node":{"value":7}},
+			"to":{"node":{"value":5}},
+			"weight":9
+			}]
+	}
+}
