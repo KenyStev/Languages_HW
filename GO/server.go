@@ -37,6 +37,9 @@ func main() {
         return val,err
       }
 
+      sortedFile := services.SortEmails(files[0].Filename)
+      log.Println(sortedFile)
+
       return 200, "ok"
     })
   })

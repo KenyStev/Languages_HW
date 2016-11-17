@@ -41,5 +41,5 @@ func SortEmails(filename string) string{
 	merge.CreateLeaves(name+"/"+filename+".filtered",5)
 	merge.MergeSort(name+"/leaves/")
 
-	return "ok"
+	return merge.GetSortedFile(filename)
 }

@@ -183,3 +183,7 @@ func SortFile(filepath string) {
 		sortedFile.WriteString(line+"\n")
 	}
 }
+
+func GetSortedFile(name string) string{
+	return rootpath + strings.Split(name,".")[0] +"/leaves/sorted/0.merged.sorted"
+}
