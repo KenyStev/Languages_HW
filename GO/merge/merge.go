@@ -7,9 +7,41 @@ import (
 	"bufio"
 	"fmt"
 	"regexp"
+	"io/ioutil"
+	"sort"
 )
 
-func sort(m []int) []int {
+const(
+	rootpath = "resources/mergesort/"
+)
+
+func GetLeaves(dirpath string) []string {
+	files, err := ioutil.ReadDir(rootpath + dirpath)
+	if err != nil {
+		fmt.Println("No pudo abrir el dir: " + dirpath)
+	}
+	var files_name []string
+	for _, file := range files {
+		files_name = append(files_name,file.Name())
+	}
+	fmt.Println(dirpath)
+	fmt.Println(files_name)
+	return files_name
+}
+
+func MergeSort(dirpath string) {
+	leaves := GetLeaves(dirpath)
+	var sortedpath string
+	sortedpath = dirpath + "sorted/"
+	CreateFolder(sortedpath)
+	for _, file := range leaves {
+		SortFile(dirpath + file)
+	}
+	leaves = GetLeaves(sortedpath)
+	mergesort(sortedpath,leaves,0)
+}
+
+func mergesort(path string,m []string, cont int) []string{
 	if len(m) <= 1 {
 		return m
 	}
@@ -18,29 +50,53 @@ func sort(m []int) []int {
 	left := m[:mid]
 	right := m[mid:]
 
-	left = sort(left)
-	right = sort(right)
+	left = mergesort(path,left,cont+1)
+	right = mergesort(path,right,cont+2)
 
-	return merge(left, right)
+	return merge(path,left, right,cont)
 }
 
-func merge(left, right []int) []int {
-	var result []int
-	for len(left) > 0 || len(right) > 0 {
-		if len(left) > 0 && len(right) > 0 {
-			if left[0] <= right[0] {
-				result = append(result, left[0])
-				left = left[1:]
+func merge(path string,left, right []string, cont int) []string {
+	var result []string
+	name := strconv.Itoa(cont) + ".merged.sorted"
+	result = append(result, name)
+	left_file := openfile(path + left[0])
+	defer left_file.Close()
+	right_file := openfile(path + right[0])
+	defer right_file.Close()
+	new_file,_ := os.Create(rootpath + path + name)
+	defer new_file.Close()
+
+	scan_left := bufio.NewScanner(left_file)
+	scan_right := bufio.NewScanner(right_file)
+	pos_left := 0; pos_right := 0
+
+	// var left_word,right_word string
+	for {
+		scan_left.Scan(); scan_right.Scan()
+		left_word := scan_left.Text()
+		right_word := scan_right.Text()
+		fmt.Print("lesf: "+left_word + " " + strconv.Itoa(-len(left_word)))
+		fmt.Println(" right: "+right_word+ " " + strconv.Itoa(-len(right_word)))
+
+		if len(left_word) > 0 && len(right_word) > 0 {
+			if left_word <= right_word {
+				new_file.WriteString(left_word+"\n")
+				pos_left += len(left_word) + 1
+				right_file.Seek(int64(pos_right),0)
+				scan_right = bufio.NewScanner(right_file)
 			} else {
-				result = append(result, right[0])
-				right = right[1:]
+				new_file.WriteString(right_word+"\n")
+				pos_right += len(right_word)+ 1
+				left_file.Seek(int64(pos_left),0)
+				scan_left = bufio.NewScanner(left_file)
 			}
-		} else if len(left) > 0 {
-			result = append(result, left[0])
-			left = left[1:]
-		} else if len(right) > 0 {
-			result = append(result, right[0])
-			right = right[1:]
+		} else if len(left_word) > 0 {
+			new_file.WriteString(left_word+"\n")
+		} else if len(right_word) > 0 {
+			new_file.WriteString(right_word+"\n")
+		}else{
+			break;
 		}
 	}
 
@@ -49,50 +105,81 @@ func merge(left, right []int) []int {
 
 func CreateFolder(filename string) {
 	folder := strings.Split(filename,".")[0];
-	if err := os.Mkdir("resources/"+folder,0777); err != nil{
-		fmt.Println("no creo el folder")
+	if err := os.Mkdir(rootpath+folder,0777); err != nil{
+		fmt.Println("no creo el folder: "+filename)
 		return
 	}
 }
 
-func FilterFile(filepath, pattern string) {
-	file,err := os.Open(filepath)
-	defer file.Close()
+func openfile(filepath string) *os.File {
+	file,err := os.Open(rootpath + filepath)
+	
 	if err != nil{
-		fmt.Println("no abrio archivo")
-		return
+		fmt.Println("no abrio archivo "+filepath)
+		return nil
 	}
+	return file
+}
+
+func FilterFile(filepath, pattern string) {
+	file := openfile(filepath)
+	defer file.Close()
 	scanner := bufio.NewScanner(file)
-	filteredFile,_ := os.Create(filepath + ".filtered")
+	createdFile := rootpath +filepath + ".filtered"
+	filteredFile,err := os.Create(createdFile)
 	defer filteredFile.Close()
+	if err != nil{
+		fmt.Println("no se pudo crear: "+createdFile)
+	}
 	var line string
 	for scanner.Scan() {
 		line = scanner.Text()
 		if matched,_ := regexp.MatchString(pattern,line); matched{
-			filteredFile.WriteString(line+"\n")
+			filteredFile.WriteString(strings.ToLower(line)+"\n")
 		}
 	}
 }
 
 func CreateLeaves(filepath string, leafSize int) {
-	folder := strings.Split(filepath,"/")[0]
-	file,err := os.Open(filepath)
+	folder := rootpath + strings.Split(filepath,"/")[0] + "/leaves/"
+	CreateFolder(strings.Split(filepath,"/")[0] + "/leaves/")
+	file := openfile(filepath)
 	defer file.Close()
-	if err != nil{
-		fmt.Println("no abrio archivo")
-		return
-	}
 	leafcont := 0
 	scanner := bufio.NewScanner(file)
 	var filteredFile *os.File
 	var line string
 	for linecont := 0; scanner.Scan(); linecont++ {
 		if linecont%leafSize == 0 {
-			filteredFile,_ = os.Create(folder +"/leaf" + strconv.Itoa(leafcont))
+			filteredFile,_ = os.Create(folder +"leaf" + strconv.Itoa(leafcont))
 			defer filteredFile.Close()
 			leafcont++
 		}
 		line = scanner.Text()
 		filteredFile.WriteString(line+"\n")
+	}
+}
+
+func SortFile(filepath string) {
+	fileData,_ := ioutil.ReadFile(rootpath + filepath)
+	data := strings.Split(string(fileData),"\n")
+	sort.Strings(data)
+	fullpath := strings.Split(filepath,"/"); 
+	fullpath = append(fullpath, "sorted")
+	l := len(fullpath)
+	fullpath[l-2],fullpath[l-1] = fullpath[l-1], fullpath[l-2]
+	sortedpath := rootpath
+	for i,path := range fullpath{
+		if i<l-1{
+			sortedpath += path + "/"
+		}
+	}
+	fmt.Println("path: "+ sortedpath)
+	// CreateFolder(sortedpath)
+	sortedFile,_ := os.Create(sortedpath + fullpath[l-1] + ".sorted")
+	defer sortedFile.Close()
+	data = data[1:] //delete '\n'
+	for _,line := range(data) {
+		sortedFile.WriteString(line+"\n")
 	}
 }
