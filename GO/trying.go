@@ -1,6 +1,16 @@
 package main
 
-import(
+import (
+	"log"
+	"net/http"
+)
+
+func main() {
+	// Simple static webserver:
+	log.Fatal(http.ListenAndServe(":8080", http.FileServer(http.Dir("/usr/share/doc"))))
+}
+
+/*import(
 	// "fmt"
 	"./merge"
 	
@@ -12,9 +22,9 @@ func main() {
 	merge.FilterFile("emails/emails.txt","(\\w[-._\\w]*\\w@\\w[-._\\w]*\\w\\.\\w{2,3})")
 	merge.CreateLeaves("emails/emails.txt.filtered",5)
 	// merge.SortFile("emails/leaves/leaf0")
-	// merge.GetLeaves("resources/emails/leaves/")
+	merge.GetLeaves("resources/emails/leaves/")
 	merge.MergeSort("emails/leaves/")	
-}
+}*/
 
 
 /*//read file
