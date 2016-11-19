@@ -5,7 +5,8 @@ import(
 )
 
 func main() {
-	bitcode.HideMessages("oceano.bmp","KE")
+	bitcode.HideMessage("oceano.bmp","KE")
+	bitcode.SeekMessage("hidden_oceano.bmp")
 }
 
 /*import (

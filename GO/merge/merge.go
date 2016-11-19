@@ -33,7 +33,7 @@ func MergeSort(dirpath string) {
 	leaves := GetLeaves(dirpath)
 	var sortedpath string
 	sortedpath = dirpath + "sorted/"
-	CreateFolder(sortedpath)
+	createFolder(sortedpath)
 	for _, file := range leaves {
 		SortFile(dirpath + file)
 	}
@@ -103,7 +103,7 @@ func merge(path string,left, right []string, cont int) []string {
 	return result
 }
 
-func CreateFolder(filename string) {
+func createFolder(filename string) {
 	folder := strings.Split(filename,".")[0];
 	if err := os.Mkdir(rootpath+folder,0777); err != nil{
 		log.Println("no creo el folder: "+filename)
@@ -142,7 +142,7 @@ func FilterFile(filepath, pattern string) {
 
 func CreateLeaves(filepath string, leafSize int) {
 	folder := rootpath + strings.Split(filepath,"/")[0] + "/leaves/"
-	CreateFolder(strings.Split(filepath,"/")[0] + "/leaves/")
+	createFolder(strings.Split(filepath,"/")[0] + "/leaves/")
 	file := openfile(filepath)
 	defer file.Close()
 	leafcont := 0
@@ -175,7 +175,7 @@ func SortFile(filepath string) {
 		}
 	}
 	log.Println("path: "+ sortedpath)
-	// CreateFolder(sortedpath)
+	// createFolder(sortedpath)
 	sortedFile,_ := os.Create(sortedpath + fullpath[l-1] + ".sorted")
 	defer sortedFile.Close()
 	data = data[1:] //delete '\n'

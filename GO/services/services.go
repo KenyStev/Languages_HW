@@ -8,11 +8,29 @@ import(
 	"log"
 	"mime/multipart"
 	"../merge"
+	"../bitcode"
 )
 
-func Upload(name *multipart.FileHeader, savepath string) (int, string){
-	merge.CreateFolder(name.Filename)
+func SortEmails(filename string) string{
+	name := strings.Split(filename,".")[0]
+	merge.FilterFile(name+"/"+filename,"(\\w[-._\\w]*\\w@\\w[-._\\w]*\\w\\.\\w{2,3})")
+	merge.CreateLeaves(name+"/"+filename+".filtered",5)
+	merge.MergeSort(name+"/leaves/")
 
+	return merge.GetSortedFile(filename)
+}
+
+func HideMessage(filename, message string) string {
+	bitcode.HideMessage(filename,message)
+	return bitcode.GetHidden(filename)
+}
+
+func SeekMessage(filename string) string {
+	bitcode.SeekMessage(filename)
+	return bitcode.GetMessage(filename)
+}
+
+func Upload(name *multipart.FileHeader, savepath string) (int, string){
 	log.Println("getting handle to file")
     file, err := name.Open()
     
@@ -21,6 +39,7 @@ func Upload(name *multipart.FileHeader, savepath string) (int, string){
         return http.StatusInternalServerError, err.Error()
     }
     filename := strings.Split(name.Filename,".")[0]
+    CreateFolder(savepath+filename)
 	dst, err := os.Create(savepath+filename+"/" + name.Filename)
 	defer dst.Close()
 	if err != nil {
@@ -33,15 +52,6 @@ func Upload(name *multipart.FileHeader, savepath string) (int, string){
 	    return http.StatusInternalServerError, err.Error()
 	}
 	return 200, "ok"
-}
-
-func SortEmails(filename string) string{
-	name := strings.Split(filename,".")[0]
-	merge.FilterFile(name+"/"+filename,"(\\w[-._\\w]*\\w@\\w[-._\\w]*\\w\\.\\w{2,3})")
-	merge.CreateLeaves(name+"/"+filename+".filtered",5)
-	merge.MergeSort(name+"/leaves/")
-
-	return merge.GetSortedFile(filename)
 }
 
 func Download(filepath,name string,writer http.ResponseWriter) {
@@ -65,4 +75,11 @@ func Download(filepath,name string,writer http.ResponseWriter) {
 	//We read 512 bytes from the file already so we reset the offset back to 0
 	Openfile.Seek(0, 0)
 	io.Copy(writer, Openfile) //'Copy' the file to the client
+}
+
+func CreateFolder(folder string) {
+	if err := os.Mkdir(folder,0777); err != nil{
+		log.Println("no creo el folder: "+folder)
+		return
+	}
 }

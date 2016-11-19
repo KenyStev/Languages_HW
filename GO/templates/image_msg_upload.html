@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>File Upload</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Send Image and Messages</h1>
+      <form method="post" action="/api/bitcode" enctype="multipart/form-data">
+        <input type="file" name="files" id="files" multiple="multiple">
+        <input type="text" name="message" id="message"></input>
+        <input type="submit" name="submit" value="Submit">        
+      </form>
+    </div>
+  </body>
+</html>
