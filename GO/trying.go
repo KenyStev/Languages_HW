@@ -1,6 +1,14 @@
 package main
 
-import (
+import(
+	"./bitcode"
+)
+
+func main() {
+	bitcode.HideMessages("oceano.bmp","KE")
+}
+
+/*import (
 	"log"
 	"net/http"
 )
@@ -8,7 +16,7 @@ import (
 func main() {
 	// Simple static webserver:
 	log.Fatal(http.ListenAndServe(":8080", http.FileServer(http.Dir("/usr/share/doc"))))
-}
+}*/
 
 /*import(
 	// "fmt"

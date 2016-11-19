@@ -5,7 +5,7 @@ import (
 	"strings"
 	"strconv"
 	"bufio"
-	"fmt"
+	"log"
 	"regexp"
 	"io/ioutil"
 	"sort"
@@ -18,14 +18,14 @@ const(
 func GetLeaves(dirpath string) []string {
 	files, err := ioutil.ReadDir(rootpath + dirpath)
 	if err != nil {
-		fmt.Println("No pudo abrir el dir: " + dirpath)
+		log.Println("No pudo abrir el dir: " + dirpath)
 	}
 	var files_name []string
 	for _, file := range files {
 		files_name = append(files_name,file.Name())
 	}
-	fmt.Println(dirpath)
-	fmt.Println(files_name)
+	log.Println(dirpath)
+	log.Println(files_name)
 	return files_name
 }
 
@@ -76,8 +76,8 @@ func merge(path string,left, right []string, cont int) []string {
 		scan_left.Scan(); scan_right.Scan()
 		left_word := scan_left.Text()
 		right_word := scan_right.Text()
-		fmt.Print("lesf: "+left_word + " " + strconv.Itoa(-len(left_word)))
-		fmt.Println(" right: "+right_word+ " " + strconv.Itoa(-len(right_word)))
+		log.Print("lesf: "+left_word + " " + strconv.Itoa(-len(left_word)))
+		log.Println(" right: "+right_word+ " " + strconv.Itoa(-len(right_word)))
 
 		if len(left_word) > 0 && len(right_word) > 0 {
 			if left_word <= right_word {
@@ -106,7 +106,7 @@ func merge(path string,left, right []string, cont int) []string {
 func CreateFolder(filename string) {
 	folder := strings.Split(filename,".")[0];
 	if err := os.Mkdir(rootpath+folder,0777); err != nil{
-		fmt.Println("no creo el folder: "+filename)
+		log.Println("no creo el folder: "+filename)
 		return
 	}
 }
@@ -115,7 +115,7 @@ func openfile(filepath string) *os.File {
 	file,err := os.Open(rootpath + filepath)
 	
 	if err != nil{
-		fmt.Println("no abrio archivo "+filepath)
+		log.Println("no abrio archivo "+filepath)
 		return nil
 	}
 	return file
@@ -129,7 +129,7 @@ func FilterFile(filepath, pattern string) {
 	filteredFile,err := os.Create(createdFile)
 	defer filteredFile.Close()
 	if err != nil{
-		fmt.Println("no se pudo crear: "+createdFile)
+		log.Println("no se pudo crear: "+createdFile)
 	}
 	var line string
 	for scanner.Scan() {
@@ -174,7 +174,7 @@ func SortFile(filepath string) {
 			sortedpath += path + "/"
 		}
 	}
-	fmt.Println("path: "+ sortedpath)
+	log.Println("path: "+ sortedpath)
 	// CreateFolder(sortedpath)
 	sortedFile,_ := os.Create(sortedpath + fullpath[l-1] + ".sorted")
 	defer sortedFile.Close()
