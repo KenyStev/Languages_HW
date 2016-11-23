@@ -7,7 +7,9 @@ import (
 		"net/http"
 		// "github.com/martini-contrib/cors"
     "log"
+    "encoding/json"
     "./services"
+    "./graph"
 	)
 
 const(
@@ -94,6 +96,21 @@ func main() {
       services.Download(message,"message.txt",writer)
 
       return 200, "ok"
+    })
+
+    mr.Post("/kruskal", func(writer http.ResponseWriter,r *http.Request) (int, string) {
+      decoder := json.NewDecoder(r.Body)
+      var json_dec graph.Graph
+      err := decoder.Decode(&json_dec)
+      if err != nil {
+          panic(err)
+      }
+      defer r.Body.Close()
+
+      log.Printf("json body: %+v",json_dec)
+
+      json_tree := services.Kruskal(&json_dec)
+      return 200, json_tree
     })
 
   })
