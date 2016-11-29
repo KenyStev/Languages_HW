@@ -28,13 +28,11 @@ app.get('/',function(req, res){
 );
 
 app.get('/upload', function(req,res){
-  res.render("./templates/upload.html",function(err,html){
-    res.send(html);
-  });
+  res.render("./templates/upload.html");
 });
 
 app.post('/upload', function(req, res){
-    console.log(req);
+    console.log(req.files);
     gp.upload(req,"./uploads/file",function(err){
       if(err)
         res.status(500).json(err)
