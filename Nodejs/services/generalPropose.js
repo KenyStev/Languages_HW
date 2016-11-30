@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-exports.upload = function(req, filename, cb){
+exports.upload = function(req, savepath, cb){
     var file;
  
     if (!req.files) {
@@ -11,7 +11,9 @@ exports.upload = function(req, filename, cb){
     if(!file){
         cb(new Error("Cannot find file in files param"))
     }else{
-        var uploadPath = filename;
+        let folder = savepath + file.name.split(".")[0];
+        createFolder(folder);
+        var uploadPath = folder + "/" + file.name;
         file.mv(uploadPath, function(err) {
             if (err) {
                 cb(new Error('Cannot copy file'));
@@ -21,4 +23,8 @@ exports.upload = function(req, filename, cb){
             }
         });
     }
+}
+
+var createFolder = function(folder) {
+    fs.mkdirSync(folder);
 }
