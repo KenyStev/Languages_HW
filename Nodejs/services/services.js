@@ -1,4 +1,6 @@
-var merge = require("../merge/merge.js");
+var merge = require("../merge/merge.js")
+,	bitcode = require("../bitcode/bitcode.js")
+,	graph = require("../graph/kruskal.js");
 
 exports.SortEmails = function(filename,cb) {
 	let name = filename.split(".")[0];
@@ -26,3 +28,16 @@ exports.SortEmails = function(filename,cb) {
 	});
 };
 
+exports.HideMessage = function(filename, message,cb) {
+	bitcode.HideMessage(filename,message)
+	cb(bitcode.GetHidden(filename))
+}
+
+exports.SeekMessage = function(filename,cb) {
+	bitcode.SeekMessage(filename)
+	cb(bitcode.GetMessage(filename))
+}
+
+exports.Kruskal = function(json_graph,cb) {
+	cb(graph.ApplyKruskal(json_graph))
+}
