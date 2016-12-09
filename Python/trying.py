@@ -27,9 +27,23 @@ def test2():
 # import os
 
 # os.makedirs("directory")
-
-with open('uploads/emails.txt','r') as f:
-	line = f.readline()
-	while len(line) > 0:
-		print line
+def readline_by_line():
+	with open('uploads/emails.txt','r') as f:
 		line = f.readline()
+		while len(line) > 0:
+			print line
+			line = f.readline()
+
+def try_array():
+	with open('uploads/emails.txt','r') as f:
+		data = f.read()
+		print data
+		data = sorted(data.split('\n'))
+		print data
+		data = "\n".join(data)
+		data = data[1:]
+		print data
+
+rootpath = ["mergesort","emails","leaves","sorted"]
+sortedpath = "/".join(rootpath) + "/"
+print sortedpath
