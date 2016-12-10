@@ -24,7 +24,7 @@ def test2():
 	bitout.write("keny")
 # test()
 # test2()
-# import os
+import os
 
 # os.makedirs("directory")
 def readline_by_line():
@@ -44,6 +44,26 @@ def try_array():
 		data = data[1:]
 		print data
 
-rootpath = ["mergesort","emails","leaves","sorted"]
-sortedpath = "/".join(rootpath) + "/"
-print sortedpath
+def joinArray():
+	rootpath = ["mergesort","emails","leaves","sorted"]
+	sortedpath = "/".join(rootpath) + "/"
+	print sortedpath
+
+# print os.listdir("uploads")
+
+# for x in xrange(0,10):
+# 	print x
+
+# with open("uploads/oceano.bmp") as f:
+# 	bytes = f.read(5)
+# 	for b in range(0,len(bytes)):
+# 		print bytes[b]
+
+f = open("uploads/text.txt")
+cont = 0
+while cont < 5:
+	b = f.read(1)
+	print b
+	cont = cont + 1
+print "fuera"
+f.close()
