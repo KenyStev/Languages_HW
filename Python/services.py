@@ -1,4 +1,4 @@
-import merge, bitcode
+import merge, bitcode, kruskal as graph
 
 def SortEmails(filename):
 	name = filename.split(".")[0]
@@ -15,3 +15,7 @@ def HideMessage(filename, message):
 def SeekMessage(filename):
 	bitcode.SeekMessage(filename)
 	return bitcode.GetMessage(filename)
+
+def Kruskal(json_graph):
+	tree = graph.ApplyKruskal(json_graph)
+	return str(tree)

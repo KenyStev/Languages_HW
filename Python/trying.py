@@ -59,11 +59,26 @@ def joinArray():
 # 	for b in range(0,len(bytes)):
 # 		print bytes[b]
 
-f = open("uploads/text.txt")
-cont = 0
-while cont < 5:
-	b = f.read(1)
-	print b
-	cont = cont + 1
-print "fuera"
-f.close()
+# f = open("uploads/text.txt")
+# cont = 0
+# while cont < 5:
+# 	b = f.read(1)
+# 	print b
+# 	cont = cont + 1
+# print "fuera"
+# f.close()
+
+# numbers = {'first': 2, 'second': 3, 'third': 1, 'four': 4}
+# sorted_nus = sorted(numbers,key=numbers.__getitem__)
+
+# print numbers
+# print sorted_nus
+
+# for x in sorted_nus:
+# 	print x
+
+import json, services
+
+with open("graph.json") as f_data:
+	g = json.load(f_data)
+	print services.Kruskal(g)

@@ -34,9 +34,9 @@ def mergesort(path,m,cont):
 
 def merge(path,left, right, cont):
 	result = []
-	name = `cont` + "_" + (left[0]).split(".")[0] + "_" + (right[0]).split(".")[0] + ".merged.sorted"
-	if cont == 0:
-		name = `cont` + ".merged.sorted"
+	# name = `cont` + "_" + (left[0]).split(".")[0] + "_" + (right[0]).split(".")[0] + ".merged.sorted"
+	# if cont == 0:
+	name = `cont` + ".merged.sorted"
 	result.append(name)
 	left_file = openfile(path + left[0],'r')
 	right_file = openfile(path + right[0],'r')
