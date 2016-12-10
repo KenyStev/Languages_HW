@@ -1,9 +1,52 @@
 from bitFuncs import *
+from shutil import copyfile
 import binascii
 import struct
 import math
 
 rootpath = "resources/bitcode/"
+
+def HideMessage(imagename,message):
+	folder = imagename.split(".")[0] + "/"
+	# image = open(rootpath + folder+imagename,'r+b')
+	saveMessage(rootpath+folder+"message.txt",message)
+
+	copyfile(rootpath + folder+imagename,rootpath+folder+"hidden_"+imagename)
+	imageOut = open(rootpath+folder+"hidden_"+imagename,'r+b')
+
+	start = getImageOffsetStart(imagename)
+	imageOut.seek(start)
+
+	print "-----> len <-----"
+	print "msg len: ",(len(message)*8)
+	messageLen = struct.pack('I',len(message))
+
+	print messageLen
+	writeBits(imageOut,bytearray(messageLen))
+	print "-----> msg <-----"
+	messagebits = bytearray(message)
+	writeBits(imageOut,messagebits)
+
+	# image.close()
+	imageOut.close()
+
+def SeekMessage(imagename):
+	folder = imagename.split(".")[0] + "/"
+	image = open(rootpath+folder+imagename)
+
+	start = getImageOffsetStart(imagename)
+	image.seek(start)
+	print "-----> len <-----"
+	messageLenBytes = bytearray(readBits(image,4))
+	print messageLenBytes
+	messageLen = convertBytesToInt(messageLenBytes,'i')
+	print "msg len: ",messageLen
+	print "-----> msg <-----"
+	message = bytearray(readBits(image,messageLen))
+	print "msg: ",message
+	
+	saveMessage(rootpath+folder+"message.txt",message)
+	image.close()
 
 def writeBits(fileout, bytes_arr):
 	for byte_i in range(0,len(bytes_arr)):
@@ -85,3 +128,6 @@ def GetMessage(name):
 # bytes_arr2 = bytearray(readBits(file2,4))
 # print "num: ",struct.unpack('I',bytes_arr2)[0]
 # file2.close()
+
+# HideMessage("oceano.bmp","Hola Donde quedo esto?")
+# SeekMessage("hidden_oceano.bmp")
