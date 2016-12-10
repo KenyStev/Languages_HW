@@ -60,20 +60,11 @@ app.post('/api/bitcode/seek',function(req,res){
 });
 
 app.post('/api/kruskal',function(req,res){
-  // gp.upload(req,SORTPATH,function(err){
-    // if (err) {
-      // res.status(500).json(err)
-    // }else{
       console.log("-- kruskal --")
       console.log(req.body)
-      // let graph = req.body //JSON.parse(req.body)
       services.Kruskal(req.body,function(new_graph){
         res.status(200).json(new_graph);
       });
-
-      // res.status(200).json("Hola bad")
-    // }
-  // });
 });
 
 app.post('/upload', function(req, res){

@@ -2,16 +2,18 @@ package main
 
 import (
 	// "./graph"
-	"./services"
+	// "./services"
+	"./bitcode"
 	"fmt")
 
 func main() {
-	myJSON := "{\"edges\":[{\"from\":{\"value\":\"0\"},\"to\":{\"value\":\"2\"},\"weight\":8},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"3\"},\"weight\":6},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"6\"},\"weight\":9},{\"from\":{\"value\":\"2\"},\"to\":{\"value\":\"4\"},\"weight\":5},{\"from\":{\"value\":\"2\"},\"to\":{\"value\":\"6\"},\"weight\":1},{\"from\":{\"value\":\"4\"},\"to\":{\"value\":\"6\"},\"weight\":6},{\"from\":{\"value\":\"5\"},\"to\":{\"value\":\"7\"},\"weight\":6},{\"from\":{\"value\":\"6\"},\"to\":{\"value\":\"7\"},\"weight\":9},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"5\"},\"weight\":3},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"2\"},\"weight\":4}]}"
+	fmt.Println(bitcode.GET("oceano.bmp"))
+	// myJSON := "{\"edges\":[{\"from\":{\"value\":\"0\"},\"to\":{\"value\":\"2\"},\"weight\":8},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"3\"},\"weight\":6},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"6\"},\"weight\":9},{\"from\":{\"value\":\"2\"},\"to\":{\"value\":\"4\"},\"weight\":5},{\"from\":{\"value\":\"2\"},\"to\":{\"value\":\"6\"},\"weight\":1},{\"from\":{\"value\":\"4\"},\"to\":{\"value\":\"6\"},\"weight\":6},{\"from\":{\"value\":\"5\"},\"to\":{\"value\":\"7\"},\"weight\":6},{\"from\":{\"value\":\"6\"},\"to\":{\"value\":\"7\"},\"weight\":9},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"5\"},\"weight\":3},{\"from\":{\"value\":\"1\"},\"to\":{\"value\":\"2\"},\"weight\":4}]}"
 	// myGraph := graph.JsonToGraph(myJSON)
 	// fmt.Printf("trying0:\n%v\n",myGraph)
 	// myJson := graph.GraphToJson(*myGraph)
 	// fmt.Printf("trying1:\n%v\n",myJson)
-	fmt.Println(services.Kruskal(myJSON))
+	// fmt.Println(services.Kruskal(myJSON))
 }
 
 /*import (

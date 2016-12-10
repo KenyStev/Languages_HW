@@ -114,9 +114,7 @@ func getImageOffsetStart(imagename string) uint64 {
 	image.Seek(28,0)
 	bit := make([]byte,2)
 	image.Read(bit)
-	bits := make([]byte,8)
-	copy(bits,bit)
-	bitsPerColor := binary.LittleEndian.Uint64(bits)
+	bitsPerColor := convertBytesToInt(bit)
 	log.Printf("bitsPerColor: %d",bitsPerColor)
 
 	var numColors uint64
@@ -154,4 +152,8 @@ func GetHidden(name string) string{
 
 func GetMessage(name string) string{
 	return rootpath + strings.Split(name,".")[0] + "/message.txt"
+}
+
+func GET(imagename string) uint64 {
+	return getImageOffsetStart(imagename)
 }

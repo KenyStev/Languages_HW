@@ -38,7 +38,8 @@ func main() {
           return http.StatusInternalServerError, err.Error()
       }
 
-      files := r.MultipartForm.File["files"]
+      files := r.MultipartForm.File["file"]
+      log.Println("files: ",files)
       if val,err := services.Upload(files[0],SORTPATH); err != "ok" {
         return val,err
       }
@@ -65,7 +66,7 @@ func main() {
           return http.StatusInternalServerError, err.Error()
       }
 
-      files := r.MultipartForm.File["files"]
+      files := r.MultipartForm.File["file"]
       if val,err := services.Upload(files[0],BITCODEPATH); err != "ok" {
         return val,err
       }
@@ -85,7 +86,7 @@ func main() {
           return http.StatusInternalServerError, err.Error()
       }
 
-      files := r.MultipartForm.File["files"]
+      files := r.MultipartForm.File["file"]
       if val,err := services.Upload(files[0],BITCODEPATH); err != "ok" {
         return val,err
       }
