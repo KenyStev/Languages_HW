@@ -176,9 +176,3 @@ end
 def GetSortedFile(name)
 	"#{$rootpath}#{name.split('.')[0]}/leaves/sorted/0.merged.sorted"
 end
-
-# FilterFile('emails/emails.txt',/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
-# CreateLeaves('emails/emails.txt.filtered',5)
-# GetLeaves("emails/leaves")
-# SortFile("emails/leaves/leaf0")
-# MergeSort("emails/leaves/")

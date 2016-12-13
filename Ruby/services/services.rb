@@ -9,4 +9,3 @@ def SortEmails(filename)
 	GetSortedFile(filename)
 end
 
-SortEmails("emails.txt")

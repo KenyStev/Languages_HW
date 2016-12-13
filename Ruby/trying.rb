@@ -36,4 +36,15 @@ def test
 end
 
 # test
-puts Dir.entries("resources")
+# puts Dir.entries("resources")
+
+def read_bytes
+	f = File.open("uploads/oceano.bmp", "r")
+	f.seek(10)
+	num = f.read(2).unpack('S')
+	puts num
+	puts (num[0] + 3)
+	f.close
+end
+
+read_bytes
