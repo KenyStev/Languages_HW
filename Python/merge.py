@@ -17,9 +17,9 @@ def MergeSort(dirpath):
 		SortFile(dirpath + leaves[i])
 
 	leaves = GetLeaves(sortedpath)
-	mergesort(sortedpath,leaves,0)
+	mergesort(sortedpath,leaves,0,"")
 
-def mergesort(path,m,cont):
+def mergesort(path,m,cont,path_to):
 	if len(m) <= 1:
 		return m
 
@@ -27,16 +27,16 @@ def mergesort(path,m,cont):
 	left = m[:mid]
 	right = m[mid:]
 
-	left = mergesort(path,left,cont+1)
-	right = mergesort(path,right,cont+2)
+	left = mergesort(path,left,cont+1,path_to+`cont`)
+	right = mergesort(path,right,cont+2,path_to+`cont`)
 
-	return merge(path,left, right,cont)
+	return merge(path,left, right,cont,path_to)
 
-def merge(path,left, right, cont):
+def merge(path,left, right, cont,path_to):
 	result = []
 	# name = `cont` + "_" + (left[0]).split(".")[0] + "_" + (right[0]).split(".")[0] + ".merged.sorted"
 	# if cont == 0:
-	name = `cont` + ".merged.sorted"
+	name = path_to + `cont` + ".merged.sorted"
 	result.append(name)
 	left_file = openfile(path + left[0],'r')
 	right_file = openfile(path + right[0],'r')
