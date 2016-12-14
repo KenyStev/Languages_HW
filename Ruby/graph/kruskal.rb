@@ -30,7 +30,7 @@ def getEndIndex(arr, i)
 	end
 	index
 end
-=begin
+
 
 def ApplyKruskal(graph)
 	new_Graph = []
@@ -45,36 +45,38 @@ def ApplyKruskal(graph)
 	print("indexes: ", indexes,"\n")
 	print("conections: ", conections,"\n")
 	
-	queue_sorted = graph["edges"].sort
-	print(indexes)
-	print("old_Graph: ",graph)
-	print "\n"
-	print("sorted: ",queue_sorted)
-	for i in range (0,len(queue_sorted)):
+	queue_sorted = graph["edges"].sort_by {|hsh| hsh["weight"]}
+	puts(indexes)
+	print("old_Graph: ",graph,"\n")
+
+	print("sorted: ",queue_sorted,"\n")
+	queue_sorted.length.times do |i|
 		item = queue_sorted[i]
-		print item
-		ini = getEndIndex(conections,indexes.get(item["from"]["value"]));
-		fin = getEndIndex(conections,indexes.get(item["to"]["value"]));
-		if (ini != fin):
-			new_Graph.append(item)
-			if((-conections[ini])>(-conections[fin])):
+		puts item
+		ini = getEndIndex(conections,indexes[item["from"]["value"]])
+		fin = getEndIndex(conections,indexes[item["to"]["value"]])
+		if (ini != fin)
+			new_Graph.push(item)
+			if((-conections[ini])>(-conections[fin]))
 				conections[ini]+=conections[fin]
 				conections[fin]=ini
-			else:
+			else
 				conections[fin]+=conections[ini]
 				conections[ini]=fin
-		else:
+			end
+		else
 			print("ya estan en el mismo arbol - forma ciclo: ",item)
-
-	print("new_Graph: ",new_Graph)
-	return new_Graph
+		end
+	end
+	print("new_Graph: ",new_Graph,"\n")
+	new_Graph
 end
-=end
+
 
 f = File.open("graph/graph.json",'r')
 data = f.read
 
-# puts GetIndexes(JSON.parse(data))
+# # puts GetIndexes(JSON.parse(data))
 d = JSON.parse(data)
-
-puts d["edges"].sort_by {|hsh| hsh["weight"]}
+ApplyKruskal(d)
+# puts d["edges"].sort_by {|hsh| hsh["weight"]}
