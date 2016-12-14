@@ -3,7 +3,7 @@ require_relative 'bitFuncs'
 
 $rootpath = "resources/bitcode/"
 
-def HideMessage(imagename,message)
+def hideMessage(imagename,message)
 	folder = "#{imagename.split(".")[0]}/"
 	saveMessage("#{$rootpath}#{folder}message.txt",message)
 
@@ -26,7 +26,7 @@ def HideMessage(imagename,message)
 	imageOut.close
 end
 
-def SeekMessage(imagename)
+def seekMessage(imagename)
 	folder ="#{imagename.split(".")[0]}/"
 	image = File.open("#{$rootpath}#{folder}#{imagename}")
 
@@ -164,4 +164,4 @@ end
 # fo.close
 
 # HideMessage("oceano.bmp","Adiso papaito")
-SeekMessage("hidden_oceano.bmp")
+# SeekMessage("hidden_oceano.bmp")

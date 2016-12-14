@@ -97,5 +97,6 @@ def arrToInt(arr)
 	arr[0] | (arr[1] << 8) | (arr[2] << 16) | (arr[3] << 24)
 end
 
-print intToArr(1875)
-puts arrToInt(intToArr(1875))
+# print intToArr(1875)
+# puts arrToInt(intToArr(1875))
+# filteredFile = File.open("resources/bitcode/2milmails/2milmails.txt.filtered",'w')

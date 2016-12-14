@@ -72,11 +72,17 @@ def ApplyKruskal(graph)
 	new_Graph
 end
 
+=begin
 
 f = File.open("graph/graph.json",'r')
 data = f.read
 
 # # puts GetIndexes(JSON.parse(data))
 d = JSON.parse(data)
-ApplyKruskal(d)
+has = ApplyKruskal(d)
+
+puts "\n"
+puts has.to_json
+=end
+
 # puts d["edges"].sort_by {|hsh| hsh["weight"]}

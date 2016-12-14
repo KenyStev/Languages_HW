@@ -1,7 +1,8 @@
-$rootpath = "resources/mergesort/"
+require 'fileutils'
+$rootpath_sort = "resources/mergesort/"
 
 def GetLeaves(dirpath)
-	files_name = Dir.entries("#{$rootpath}#{dirpath}")
+	files_name = Dir.entries("#{$rootpath_sort}#{dirpath}")
 	
 	puts "#{dirpath}"
 	files_name.delete(".")
@@ -19,10 +20,10 @@ def MergeSort(dirpath)
 	end
 
 	leaves = GetLeaves(sortedpath)
-	mergesort(sortedpath,leaves,0)
+	mergesort(sortedpath,leaves,0,"")
 end
 
-def mergesort(path,m,cont)
+def mergesort(path,m,cont,path_to)
 	if m.length <= 1
 		return m
 	end
@@ -31,22 +32,24 @@ def mergesort(path,m,cont)
 	left = m[0,mid]
 	right = m[mid,m.length]
 
-	left = mergesort(path,left,cont+1)
-	right = mergesort(path,right,cont+2)
+	left = mergesort(path,left,cont+1,"#{path_to}#{cont}")
+	right = mergesort(path,right,cont+2,"#{path_to}#{cont}")
 
-	return merge(path,left, right,cont)
+	return merge(path,left, right,cont,path_to)
 end
 
-def merge(path,left, right, cont)
+def merge(path,left, right, cont,path_to)
 	result = []
-	name = "#{cont}.merged.sorted"
-	unless cont == 0
-		name = "#{cont}_#{(left[0]).split(".")[0]}_#{(right[0]).split(".")[0]}.merged.sorted"
-	end
+	# name = "#{cont}.merged.sorted"
+	# unless cont == 0
+	# 	# name = "#{cont}_#{(left[0]).split(".")[0]}_#{(right[0]).split(".")[0]}.merged.sorted"
+	# 	name = "#{cont}_#{(left[0]).split(".")[0]}_#{(right[0]).split(".")[0]}.merged.sorted"
+	# end
+	name = "#{path_to}#{cont}.merged.sorted"
 	result.push(name)
-	left_file = File.open("#{$rootpath}#{path}#{left[0]}",'r')
-	right_file = File.open("#{$rootpath}#{path}#{right[0]}",'r')
-	new_file = File.open("#{$rootpath}#{path}#{name}",'w')
+	left_file = File.open("#{$rootpath_sort}#{path}#{left[0]}",'r')
+	right_file = File.open("#{$rootpath_sort}#{path}#{right[0]}",'r')
+	new_file = File.open("#{$rootpath_sort}#{path}#{name}",'w')
 
 	pos_left = 0
 	pos_right = 0
@@ -93,14 +96,13 @@ end
 
 def createFolder(filename)
 	folder = filename.split(".")[0]
-	Dir.mkdir("#{$rootpath}#{folder}")
+	Dir.mkdir("#{$rootpath_sort}#{folder}")
 end
 
 def FilterFile(filepath, pattern)
-	createdFile = "#{$rootpath}#{filepath}.filtered"
-	filteredFile = File.open(createdFile,'w')
-	
-	f = File.open("#{$rootpath}#{filepath}",'r')
+	filteredFile = File.open("#{$rootpath_sort}#{filepath}.filtered",'w')
+	# filteredFile = File.open("resources/bitcode/2milmails/2milmails.txt.filtered",'w')
+	f = File.open("#{$rootpath_sort}#{filepath}",'r')
 	while(line = f.gets)
 		puts "entro"
 		puts line
@@ -125,9 +127,9 @@ def FilterFile(filepath, pattern)
 end
 
 def CreateLeaves(filepath, leafSize)
-	folder = "#{$rootpath}#{filepath.split("/")[0]}/leaves/"
+	folder = "#{$rootpath_sort}#{filepath.split("/")[0]}/leaves/"
 	createFolder("#{filepath.split("/")[0]}/leaves/")
-	file = File.open("#{$rootpath}#{filepath}",'r')
+	file = File.open("#{$rootpath_sort}#{filepath}",'r')
 	
 	leafcont = 0
 	linecont = 0
@@ -150,7 +152,7 @@ def CreateLeaves(filepath, leafSize)
 end
 
 def SortFile(filepath)
-	File.open("#{$rootpath}#{filepath}",'r') do |f|
+	File.open("#{$rootpath_sort}#{filepath}",'r') do |f|
 		fileData = f.readlines
 		data = fileData.sort
 
@@ -165,7 +167,7 @@ def SortFile(filepath)
 		sortedpath = fullpath.join("/")
 		
 		puts "path: "+ sortedpath
-		File.open("#{$rootpath}#{sortedpath}.sorted",'w') do |sortedFile|
+		File.open("#{$rootpath_sort}#{sortedpath}.sorted",'w') do |sortedFile|
 			for i in 0..(data.length-1)
 				sortedFile.write(data[i])
 			end
@@ -174,5 +176,5 @@ def SortFile(filepath)
 end
 
 def GetSortedFile(name)
-	"#{$rootpath}#{name.split('.')[0]}/leaves/sorted/0.merged.sorted"
+	"#{$rootpath_sort}#{name.split('.')[0]}/leaves/sorted/0.merged.sorted"
 end
