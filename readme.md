@@ -26,20 +26,20 @@ endpoint: /api/kruskal
 
 # Lenguajes
 * GO
--run: $ go run server.go
--port: 3000
+- run: $ go run server.go
+- port: 3000
 
 * NodeJS
--run: $ node server.js
--port: 8000
+- run: $ node server.js
+- port: 8000
 
 * Ruby
--run: $ ruby server.rb
--port: 4567
+- run: $ ruby server.rb
+- port: 4567
 
 * Python
--run: $ python server.py
--port: 8080
+- run: $ python server.py
+- port: 8080
 
 ## Desarrollado
 Unitec SPS Q5 - 2016
