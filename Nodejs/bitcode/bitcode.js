@@ -103,7 +103,7 @@ var getImageOffsetStart = function(imagename) {
 
 	let numColors = 0;
 	if (bitsPerColor <= 8) {
-		numColors = Math.Pow(2,bitsPerColor);
+		numColors = Math.pow(2,bitsPerColor);
 		console.log("numColors: ",numColors);
 	}
 

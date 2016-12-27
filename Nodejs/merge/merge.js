@@ -30,11 +30,11 @@ var MergeSort = function(dirpath,cb) {
 	}
 	leaves = GetLeaves(sortedpath);
 	// print.log("leaves: ",leaves, "length: ",leaves.length);
-	mergesort(sortedpath,leaves,0);
+	mergesort(sortedpath,leaves,0,"");
 	cb(null);
 }
 
-var mergesort = function(path,m,cont){
+var mergesort = function(path,m,cont,path_to){
 	if (m.length <= 1) {
 		return m;
 	}
@@ -49,15 +49,16 @@ var mergesort = function(path,m,cont){
 	print.log("left arr: " + left);
 	print.log("right arr: " + right);
 
-	left = mergesort(path,left,cont+1);
-	right = mergesort(path,right,cont+2);
+	left = mergesort(path,left,cont+1,path_to+cont);
+	right = mergesort(path,right,cont+2,path_to+cont);
 
-	return merge(path,left, right,cont);
+	return merge(path,left, right,cont,path_to);
 }
 
-var merge = function(path,left, right, cont) {
+var merge = function(path,left, right, cont,path_to) {
 	var result = [];
-	let name = cont + "_" + (left[0]).split(".")[0] + "_" + (right[0]).split(".")[0] + ".merged.sorted";
+	// let name = cont + "_" + (left[0]).split(".")[0] + "_" + (right[0]).split(".")[0] + ".merged.sorted";
+	let name = path_to + cont + ".merged.sorted";
 	if (cont == 0) {name = cont + ".merged.sorted";};
 	print.log("sorted name: ",name," left: ",left," right: ",right);
 	result.push(name);
